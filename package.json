@@ -1,0 +1,24 @@
+{
+  "name": "server",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "deploy": "now -e GOOGLE_CLIENT_ID=@cm_google_client -e GOOGLE_CLIENT_SECRET=@cm_google_secret -e TOKEN_SECRET=@cm_token_secret -e CLIENT_REDIRECT=@cm_client_redirect -e CLIENT_ERROR_REDIRECT=@cm_client_error -e DATABASE_URL=@cm_client_db -e NODE_ENV=production"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
+    "debug": "~2.6.9",
+    "dotenv": "^8.2.0",
+    "express": "~4.16.1",
+    "joi": "^17.2.1",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.21.5",
+    "morgan": "~1.9.1",
+    "passport": "^0.4.1",
+    "passport-google-oauth20": "^2.0.0",
+    "pg": "^8.3.3"
+  }
+}
