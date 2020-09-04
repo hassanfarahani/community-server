@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const passport = require('passport')
 const cors = require('cors')
-const timeout = require('connect-timeout')
 
 // dotenv will reboots inside of our environmental variables file so that when it reaches google.js. clientID & clientSecret have
 // actual values that are in .env file
@@ -18,7 +17,6 @@ const api = require('./api')
 
 const app = express();
 
-app.use(timeout('5s'))
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
