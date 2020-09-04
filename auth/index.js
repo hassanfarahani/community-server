@@ -30,7 +30,22 @@ router.get('/google',
 // custom callback from passport docs
 // here we have custom access to what we get back ===> google
 // (err, user) exactly matches up with cb(null, user) in google.js
-router.get('/google/callback', (req, res, next) => {
+// router.get('/google/callback', (req, res, next) => {
+//   passport.authenticate('google', async (err, user) => {
+//     if (err) { return next(err); }
+//     try {
+//       // create a JWT with the user & then redirect to the client side with that JWT (creating token & verifying token) --> create utils.js in auth folder
+//       const token = await create(user)
+//       // here server needs to redirect back to the client to give them this token so that they can make authorized request
+//       res.redirect(`${process.env.CLIENT_REDIRECT}${token}`)
+//     } catch(error) {
+//       res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`)
+//     }
+//   })(req, res, next);
+// });
+router.get('/google/callback', redirectToClientWithToken);
+
+function redirectToClientWithToken(req, res, next) {
   passport.authenticate('google', async (err, user) => {
     if (err) { return next(err); }
     try {
@@ -42,6 +57,6 @@ router.get('/google/callback', (req, res, next) => {
       res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`)
     }
   })(req, res, next);
-});
+}
 
 module.exports = router
