@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "deploy": "now -e GOOGLE_CLIENT_ID=@cm_google_client -e GOOGLE_CLIENT_SECRET=@cm_google_secret -e TOKEN_SECRET=@cm_token_secret -e CLIENT_REDIRECT=@cm_client_redirect -e CLIENT_ERROR_REDIRECT=@cm_client_error -e DATABASE_URL=@cm_client_db -e NODE_ENV=production"
   },
   "dependencies": {

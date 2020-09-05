@@ -25,6 +25,25 @@ router.get('/isAdmin', async (req, res) => {
 router.get('/google',
   passport.authenticate('google', { scope: ['profile', 'email'] }));
 
+router.get('/google/callback', redirectToClientWithToken);
+
+function redirectToClientWithToken(req, res, next) {
+  passport.authenticate('google', async (err, user) => {
+    if (err) { return next(err); }
+    try {
+      // create a JWT with the user & then redirect to the client side with that JWT (creating token & verifying token) --> create utils.js in auth folder
+      const token = await create(user)
+      // here server needs to redirect back to the client to give them this token so that they can make authorized request
+      res.redirect(`${process.env.CLIENT_REDIRECT}${token}`)
+    } catch(error) {
+      res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`)
+    }
+  })(req, res, next);
+}
+
+module.exports = router
+
+
 // The middleware receives the data from Google and runs the function on Strategy config
 // (5): This is triggered by the callbackURL(cb), which Google will use to respond to the login request.
 // custom callback from passport docs
@@ -43,20 +62,3 @@ router.get('/google',
 //     }
 //   })(req, res, next);
 // });
-router.get('/google/callback', redirectToClientWithToken);
-
-function redirectToClientWithToken(req, res, next) {
-  passport.authenticate('google', async (err, user) => {
-    if (err) { return next(err); }
-    try {
-      // create a JWT with the user & then redirect to the client side with that JWT (creating token & verifying token) --> create utils.js in auth folder
-      const token = await create(user)
-      // here server needs to redirect back to the client to give them this token so that they can make authorized request
-      res.redirect(`${process.env.CLIENT_REDIRECT}${token}`)
-    } catch(error) {
-      res.redirect(`${process.env.CLIENT_ERROR_REDIRECT}${error.message}`)
-    }
-  })(req, res, next);
-}
-
-module.exports = router
